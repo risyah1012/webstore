@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: linear-gradient(135deg, #e9e50a 5%, #770be4 100%);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-container {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 20%;
+      object-fit: cover;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 20px rgba(11, 253, 31, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.10);
+    }
+
+    .logo-fallback {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e9e50a 20%, #770be4 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: white;
+      border: 3px solid #1d1c05;
+    }
+
+    h2 {
+      color: #000000;
+      margin-bottom: 10px;
+      font-size: 28px;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    }
+
+    p {
+      color: #000000;
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #000000;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: all 0.3s;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    input:focus {
+      border-color: #770be4;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(119, 11, 228, 0.2);
+      background: white;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ea66df 0%, #0a95ad 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 7px 7px 12px rgba(233, 250, 1, 0.959)
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .login {
+      margin-top: 25px;
+      color: #000000;
+      font-weight: 500;
+    }
+
+    .login a {
+      color: #00ff2a;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .login a:hover {
+      text-decoration: underline;
+      color: #000000;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-top: 15px;
+      padding: 12px;
+      background-color: rgba(253, 242, 242, 0.9);
+      border-radius: 5px;
+      display: none;
+      border-left: 4px solid #e74c3c;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .success-message {
+      color: #27ae60;
+      margin-top: 15px;
+      padding: 12px;
+      background-color: rgba(242, 253, 242, 0.9);
+      border-radius: 5px;
+      display: none;
+      border-left: 4px solid #27ae60;
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      font-size: 18px;
+    }
+
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    .input-nama::before {
+      content: '👤';
+    }
+
+    .input-email::before {
+      content: '📧';
+    }
+
+    .input-password::before {
+      content: '🔒';
+    }
+
+    .input-icon input {
+      padding-left: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+      
+      .logo {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <img src="risyah.jpg" alt="Risyah Store Logo" class="logo" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
+      <div id="fallbackLogo" class="logo-fallback" style="display: none;">🛒</div>
+    </div>
+    
+    <h2>REGISTRASI</h2>
+    <p>Isi data dibawah</p>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label>Nama Lengkap</label>
+        <div class="input-icon input-nama">
+          <input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-icon input-email">
+          <input type="email" id="email" placeholder="Masukkan email" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon input-password">
+          <div class="password-container">
+            <input type="password" id="password" placeholder="Password (min 6 karakter)" required minlength="6">
+            <button type="button" class="password-toggle" id="passwordToggle">👁️</button>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Daftar </button>
+    </form>
+
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+
+    <div class="login">
+      Sudah punya akun? <a href="login.html">Login Sekarang</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nama = document.getElementById("nama").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMessage = document.getElementById("errorMessage");
+      const successMessage = document.getElementById("successMessage");
+
+      // Reset pesan
+      errorMessage.style.display = "none";
+      successMessage.style.display = "none";
+
+      // Validasi input
+      if (!nama || !email || !password) {
+        showError("Harap isi semua field!");
+        return;
+      }
+
+      // Validasi format email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showError("Format email tidak valid!");
+        return;
+      }
+
+      // Validasi panjang password
+      if (password.length < 6) {
+        showError("Password minimal 6 karakter!");
+        return;
+      }
+
+      let akunList = JSON.parse(localStorage.getItem("akunList")) || [];
+
+      // Cek jika email sudah terdaftar
+      if (akunList.some(a => a.email === email)) {
+        showError("Email sudah terdaftar!");
+        return;
+      }
+
+      // Simpan data pengguna
+      akunList.push({ nama, email, password });
+      localStorage.setItem("akunList", JSON.stringify(akunList));
+
+      // Tampilkan pesan sukses
+      showSuccess("Akun berhasil dibuat! Mengarahkan ke halaman login...");
+      
+      // Reset form
+      document.getElementById("registerForm").reset();
+      
+      // Redirect setelah 2 detik
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 2000);
+    });
+
+    // Toggle password visibility
+    document.getElementById("passwordToggle").addEventListener("click", function() {
+      const passwordInput = document.getElementById("password");
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+    });
+
+    // Validasi real-time untuk email
+    document.getElementById("email").addEventListener("blur", function() {
+      const email = this.value.trim();
+      if (email && !validateEmail(email)) {
+        this.style.borderColor = '#e74c3c';
+      } else if (email) {
+        this.style.borderColor = '#27ae60';
+      }
+    });
+
+    // Validasi real-time untuk password
+    document.getElementById("password").addEventListener("input", function() {
+      const password = this.value.trim();
+      if (password.length > 0 && password.length < 6) {
+        this.style.borderColor = '#e74c3c';
+      } else if (password.length >= 6) {
+        this.style.borderColor = '#27ae60';
+      } else {
+        this.style.borderColor = '#ddd';
+      }
+    });
+
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById("errorMessage");
+      errorMessage.textContent = message;
+      errorMessage.style.display = "block";
+      
+      // Auto hide setelah 5 detik
+      setTimeout(() => {
+        errorMessage.style.display = "none";
+      }, 5000);
+    }
+
+    function showSuccess(message) {
+      const successMessage = document.getElementById("successMessage");
+      successMessage.textContent = message;
+      successMessage.style.display = "block";
+    }
+
+    // Cek jika user sudah login, redirect ke halaman utama
+    window.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      if (isLoggedIn === "true") {
+        window.location.href = "shopee.html";
+      }
+    });
+  </script>
+</body>
+</html>

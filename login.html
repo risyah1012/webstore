@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: linear-gradient(135deg, #e9e50a 5%, #770be4 100%);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .logo-container {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 20%;
+      object-fit: cover;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 20px rgba(11, 253, 31, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.10);
+    }
+
+    .logo-fallback {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e9e50a 20%, #770be4 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: white;
+      border: 3px solid #1d1c05;
+    }
+
+    h2 {
+      color: #1a0f0f;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    p {
+      color: #030303;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #000000;
+      font-weight: 500;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #000000;
+      font-size: 18px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 7px 7px 12px rgba(233, 250, 1, 0.959)
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-loading .btn-text {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .btn-loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 2px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+    }
+
+    @keyframes button-loading-spinner {
+      from { transform: rotate(0turn); }
+      to { transform: rotate(1turn); }
+    }
+
+    .register {
+      margin-top: 25px;
+      color: #000000;
+    }
+
+    .register a {
+      color: #00ff37;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .register a:hover {
+      text-decoration: underline;
+      color: #000000;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #fdf2f2;
+      border-radius: 5px;
+      display: none;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .logo {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: #032de9;
+    }
+
+    .success-message {
+      color: #27ae60;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f2fdf2;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .input-error {
+      border-color: #e74c3c;
+      box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+    }
+
+    .input-success {
+      border-color: #27ae60;
+      box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <img src="risyah.jpg" alt="Risyah Store Logo" class="logo" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
+      <div id="fallbackLogo" class="logo-fallback" style="display: none;">🛒</div>
+    </div>
+    <p>Silakan isi data</p>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label>📧 Email</label>
+        <div class="input-container">
+          <input type="email" id="email" placeholder="Masukkan email" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>🔒 Password</label>
+        <div class="input-container">
+          <input type="password" id="password" placeholder="Masukkan password" required />
+          <button type="button" class="password-toggle" id="passwordToggle">👁️</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="loginBtn">
+        <span class="btn-text">Masuk</span>
+      </button>
+    </form>
+
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+
+    <div class="register">
+      Belum punya akun? <a href="register.html">Daftar Sekarang</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      handleLogin();
+    });
+
+    // Toggle password visibility
+    document.getElementById("passwordToggle").addEventListener("click", function() {
+      const passwordInput = document.getElementById("password");
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+    });
+
+    // Real-time validation
+    document.getElementById("email").addEventListener("input", function() {
+      validateEmail(this);
+    });
+
+    document.getElementById("password").addEventListener("input", function() {
+      validatePassword(this);
+    });
+
+    async function handleLogin() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMessage = document.getElementById("errorMessage");
+      const loginBtn = document.getElementById("loginBtn");
+
+      // Reset error message
+      errorMessage.style.display = "none";
+      errorMessage.textContent = "";
+
+      // Validasi input
+      if (!email || !password) {
+        showError("Harap isi semua field!");
+        return;
+      }
+
+      // Validasi format email
+      if (!validateEmailFormat(email)) {
+        showError("Format email tidak valid!");
+        return;
+      }
+
+      // Tampilkan loading state
+      loginBtn.disabled = true;
+      loginBtn.classList.add("btn-loading");
+
+      // Simulasi proses login (bisa diganti dengan API call)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      const akunTersimpan = JSON.parse(localStorage.getItem("akunList")) || [];
+
+      // Cari user dengan email dan password yang sesuai
+      const user = akunTersimpan.find(a => a.email === email && a.password === password);
+
+      if (user) {
+        // Simpan status login dan info user
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", user.nama);
+        localStorage.setItem("userEmail", user.email);
+        
+        // Tampilkan pesan sukses
+        showSuccess("Login Berhasil!!");
+        
+        // Redirect ke halaman utama setelah 1 detik
+        setTimeout(() => {
+          window.location.href = "shopee.html";
+        }, 1000);
+      } else {
+        // Reset loading state
+        loginBtn.disabled = false;
+        loginBtn.classList.remove("btn-loading");
+        
+        showError("Email atau password salah!");
+      }
+    }
+
+    function validateEmail(input) {
+      const email = input.value.trim();
+      if (email === '') {
+        resetInputStyle(input);
+        return;
+      }
+
+      if (validateEmailFormat(email)) {
+        input.classList.remove('input-error');
+        input.classList.add('input-success');
+      } else {
+        input.classList.remove('input-success');
+        input.classList.add('input-error');
+      }
+    }
+
+    function validatePassword(input) {
+      const password = input.value.trim();
+      if (password === '') {
+        resetInputStyle(input);
+        return;
+      }
+
+      if (password.length >= 6) {
+        input.classList.remove('input-error');
+        input.classList.add('input-success');
+      } else {
+        input.classList.remove('input-success');
+        input.classList.add('input-error');
+      }
+    }
+
+    function resetInputStyle(input) {
+      input.classList.remove('input-error');
+      input.classList.remove('input-success');
+    }
+
+    function validateEmailFormat(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById("errorMessage");
+      errorMessage.textContent = message;
+      errorMessage.style.display = "block";
+      
+      // Auto hide setelah 5 detik
+      setTimeout(() => {
+        errorMessage.style.display = "none";
+      }, 5000);
+    }
+
+    function showSuccess(message) {
+      const successMessage = document.getElementById("successMessage");
+      successMessage.textContent = message;
+      successMessage.style.display = "block";
+    }
+
+    // Cek jika user sudah login, redirect ke halaman utama
+    window.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      if (isLoggedIn === "true") {
+        // Tampilkan pesan bahwa user sudah login
+        showSuccess("Anda sudah login! Mengarahkan...");
+        setTimeout(() => {
+          window.location.href = "shopee.html";
+        }, 1000);
+      }
+
+      // Cek jika ada parameter success dari register
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('registered') === 'true') {
+        showSuccess("Pendaftaran berhasil! Silakan login.");
+      }
+    });
+  </script>
+</body>
+</html>

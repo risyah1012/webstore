@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risyah Store - iPhone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #08b2f5;
+            color: #060c01;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: #b72dee;
+            color: white;
+            padding: 10px 0;
+        }
+        
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .search-bar {
+            display: flex;
+            background: white;
+            border-radius: 2px;
+            overflow: hidden;
+            flex: 1;
+            margin: 0 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background: #0e0be2;
+            border: none;
+            color: white;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .user-welcome {
+            font-size: 14px;
+            color: white;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 10px 0;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Seller Info */
+        .seller-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .seller-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b72dee, #0e0be2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+        }
+        
+        .seller-details h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #b72dee;
+        }
+        
+        .seller-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .follow-btn {
+            background: #b72dee;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        
+        .follow-btn:hover {
+            background: #9a1fd4;
+        }
+        
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .product-image-container {
+            height: 180px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .fallback-emoji {
+            font-size: 40px;
+            color: #555;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .product-details {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 14px;
+            height: 40px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .product-price {
+            color: #b72dee;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .product-original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .product-discount {
+            background: #000000;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 2px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #ffc600;
+            margin-bottom: 5px;
+        }
+        
+        .product-sold {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .product-location {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Promo Badge */
+        .promo-badge {
+            background: #d72dee;
+            color: white;
+            padding: 3px 8px;
+            font-size: 11px;
+            border-radius: 5px;
+            display: inline-block;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1;
+        }
+        
+        /* Section Title */
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid white;
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-bar {
+                margin: 10px 0;
+                width: 100%;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .seller-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .user-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="top-nav">
+                <div class="nav-links">
+                    <a href="#">Instant</a>
+                    <a href="#">Shopee Mall</a>
+                    <a href="#">Star</a>
+                    <a href="#">COD</a>
+                    <a href="#">Promo XTRA</a>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Cari disini">
+                    <button>Cari</button>
+                </div>
+                
+                <div class="user-actions">
+                    <span class="user-welcome" id="userWelcome">Selamat datang!</span>
+                    <a href="#">Notifikasi</a>
+                    <a href="#">Keranjang</a>
+                    <a href="#">Akun Saya</a>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="#">Home</a> > <a href="#">iPhone</a>
+        </div>
+        
+        <div class="seller-info">
+            <img src="risyah.jpg" alt="Risyah Store Logo" class="seller-avatar" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
+            <div id="fallbackLogo" class="logo-fallback" style="display: none;">🛒</div>
+            <div class="seller-details">
+                <h2>RISYAH OFFICIAL</h2>
+                <div class="seller-stats">
+                    <span>TOKO TERPERCAYA SEJAK 2024</span>
+                    <span>110K+ FOLLOWERS</span>
+                    <span>ORIGINAL | SINYAL ALL OPERATOR | NO REFURBISH</span>
+                </div>
+            </div>
+            <button class="follow-btn">+ Ikuti</button>
+        </div>
+        
+        <h2 class="section-title">IP 12</h2>
+        
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="ip12.1.jpg" alt="iPhone 12" class="product-image" onerror="this.style.display='none'">
+                </div>
+                <div class="product-details">
+                    <div class="product-title">iPhone 12 64gb 128gb Lcd 100% Original Mulus fullset No ...</div>
+                    <div class="product-price">Rp3.180.600</div>
+                    <div class="product-original-price">Rp3.349.000</div>
+                    <div class="product-rating">
+                        <span>★★★★★</span>
+                        <span>5.0</span>
+                    </div>
+                    <div class="product-sold">1RB+ terjual</div>
+                    <div class="product-location">Jakarta Barat</div>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="ip 12.jpg" alt="iPhone 12" class="product-image" onerror="this.style.display='none'">
+                </div>
+                <div class="product-details">
+                    <div class="product-title">IP 12 RAM256GB 128GB 64GB Second ...</div>
+                    <div class="product-price">Rp3.008.333</div>
+                    <div class="product-original-price">Rp3.500.000</div>
+                    <div class="product-discount">-12%</div>
+                    <div class="product-rating">
+                        <span>★★★★☆</span>
+                        <span>4.8</span>
+                    </div>
+                    <div class="product-sold">822 terjual</div>
+                    <div class="product-location">Kota Blitar</div>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="iphone11-pro.jpg" alt="iPhone 11 Pro" class="product-image" onerror="this.style.display='none'">
+                    <div class="fallback-emoji">📱</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">iPhone 11 256GB/128GB/64GB SECOND ORIGINAL FULLSET M...</div>
+                    <div class="product-price">Rp3.790.500</div>
+                    <div class="product-original-price">Rp3.990.000</div>
+                    <div class="product-rating">
+                        <span>★★★★☆</span>
+                        <span>4.9</span>
+                    </div>
+                    <div class="product-sold">10RB+ terjual</div>
+                    <div class="product-location">Jakarta Pusat</div>
+                </div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="iphone11-64gb.jpg" alt="iPhone 11 64GB" class="product-image" onerror="this.style.display='none'">
+                    <div class="fallback-emoji">📱</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">Star iphone11 256gb|128gb|64gb second original fullset mulus ii...</div>
+                    <div class="product-price">Rp2.056.750</div>
+                    <div class="product-original-price">Rp5.100.000</div>
+                    <div class="product-discount">-60%</div>
+                    <div class="product-rating">
+                        <span>★★★★☆</span>
+                        <span>4.8</span>
+                    </div>
+                    <div class="product-sold">112 terjual</div>
+                    <div class="product-location">Jakarta Utara</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">IP 12 PRO</h2>
+        
+        <div class="product-grid">
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="iphone12-pro-max.jpg" alt="iPhone 12 Pro Max" class="product-image" onerror="this.style.display='none'">
+                    <div class="fallback-emoji">📱</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">iPhone 12 Pro Max 256GB Second Original Fullset Mulus</div>
+                    <div class="product-price">Rp8.500.000</div>
+                    <div class="product-original-price">Rp9.200.000</div>
+                    <div class="product-discount">-8%</div>
+                    <div class="product-rating">
+                        <span>★★★★★</span>
+                        <span>5.0</span>
+                    </div>
+                    <div class="product-sold">2RB+ terjual</div>
+                    <div class="product-location">Jakarta Selatan</div>
+                </div>
+            </div>
+            
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="iphone12-mini.jpg" alt="iPhone 12 Mini" class="product-image" onerror="this.style.display='none'">
+                    <div class="fallback-emoji">📱</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">iPhone 12 Mini 64GB Second Original Fullset</div>
+                    <div class="product-price">Rp4.200.000</div>
+                    <div class="product-original-price">Rp4.800.000</div>
+                    <div class="product-discount">-13%</div>
+                    <div class="product-rating">
+                        <span>★★★★☆</span>
+                        <span>4.8</span>
+                    </div>
+                    <div class="product-sold">850 terjual</div>
+                    <div class="product-location">Jakarta Timur</div>
+                </div>
+            </div>
+            
+            <!-- Product 7 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="iphone12-128gb.jpg" alt="iPhone 12 128GB" class="product-image" onerror="this.style.display='none'">
+                    <div class="fallback-emoji">📱</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">iPhone 12 128GB Second Original Fullset Mulus</div>
+                    <div class="product-price">Rp5.800.000</div>
+                    <div class="product-original-price">Rp6.500.000</div>
+                    <div class="product-discount">-11%</div>
+                    <div class="product-rating">
+                        <span>★★★★☆</span>
+                        <span>4.9</span>
+                    </div>
+                    <div class="product-sold">1.5RB+ terjual</div>
+                    <div class="product-location">Jakarta Barat</div>
+                </div>
+            </div>
+            
+            <!-- Product 8 -->
+            <div class="product-card">
+                <div class="promo-badge">PROMO XTRA</div>
+                <div class="product-image-container">
+                    <img src="iphone12-pro.jpg" alt="iPhone 12 Pro" class="product-image" onerror="this.style.display='none'">
+                    <div class="fallback-emoji">📱</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">iPhone 12 Pro 256GB Second Original Fullset</div>
+                    <div class="product-price">Rp7.200.000</div>
+                    <div class="product-original-price">Rp8.000.000</div>
+                    <div class="product-discount">-10%</div>
+                    <div class="product-rating">
+                        <span>★★★★★</span>
+                        <span>5.0</span>
+                    </div>
+                    <div class="product-sold">950 terjual</div>
+                    <div class="product-location">Jakarta Pusat</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cek status login
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            const username = localStorage.getItem("username");
+            
+            if (!isLoggedIn || isLoggedIn !== "true") {
+                window.location.href = "login.html";
+                return;
+            }
+            
+            // Tampilkan nama user
+            if (username) {
+                document.getElementById('userWelcome').textContent = `Halo, ${username}!`;
+            }
+            
+            // Fallback untuk gambar yang tidak ditemukan
+            const images = document.querySelectorAll('.product-image');
+            
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                });
+                
+                // Cek jika src kosong
+                if (!img.src || img.src === window.location.href) {
+                    img.style.display = 'none';
+                }
+            });
+        });
+
+        function logout() {
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("username");
+            localStorage.removeItem("userEmail");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
